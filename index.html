@@ -595,6 +595,45 @@
   .typo-label { font-size: 11px; font-weight: 600; color: var(--color-neutral-N300); }
   .typo-detail { font-family: var(--font-mono); font-size: 10px; color: var(--color-neutral-N100); }
 
+  /* MIGRATION BADGES */
+  .migration-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+  .badge-target { background: #E6F7EF; color: #006838; border: 1px solid #96DCBC; }
+  .badge-legacy { background: #FFF4E8; color: #9C580D; border: 1px solid #FFD19F; }
+  .badge-partial { background: #F1ECFE; color: #432696; border: 1px solid #C4B0FB; }
+
+  .migration-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--color-neutral-N10);
+    border-bottom: 1px solid var(--color-neutral-N30);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .migration-note { font-size: 12px; color: var(--color-neutral-N400); }
+  .tw-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #0F766E;
+    background: #F0FDFA;
+    border: 1px solid #99F6E4;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
   /* CODE BLOCK */
   .code-block {
     background: var(--color-neutral-N900);
@@ -902,6 +941,12 @@
     Dynamic Table
   </a>
 
+  <div class="sidebar-label">Migrasi</div>
+  <a class="sidebar-item" onclick="showSection('migration', this)">
+    <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h5"/><path d="M11 10l3 3-3 3" stroke-linecap="round"/></svg>
+    Migration Tracker
+  </a>
+
   <div class="sidebar-label">Tokens</div>
   <a class="sidebar-item" onclick="showSection('tokens-ref', this)">
     <svg class="sidebar-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h10M3 6h10M3 9h7M3 12h5"/></svg>
@@ -924,7 +969,7 @@
     <div class="section active" id="section-overview">
       <div class="page-header">
         <h1>GPOS Design System</h1>
-        <p>Token-based design system untuk Super App. Semua komponen menggunakan token yang disync langsung dari Figma.</p>
+        <p>Token-based design system untuk Super App. Semua snippet komponen di catalog ini adalah <strong>target Tailwind</strong> — gunakan sebagai referensi saat engineer migrasi dari Mantine.</p>
       </div>
 
       <div class="stat-grid">
@@ -942,40 +987,60 @@
         </div>
         <div class="stat-card">
           <div class="stat-num">19</div>
-          <div class="stat-label">Komponen</div>
+          <div class="stat-label">Komponen terdokumentasi</div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Cara pakai token di Mantine</span>
+          <span class="card-title">Cara pakai token di Tailwind</span>
         </div>
         <div class="card-body">
-          <p style="font-size: 13px; color: var(--color-neutral-N400); margin-bottom: 12px;">Import CSS variables lalu gunakan langsung di Mantine theme override atau inline style:</p>
+          <p style="font-size: 13px; color: var(--color-neutral-N400); margin-bottom: 12px;">Import CSS variables ke <code style="font-family:var(--font-mono);background:var(--color-neutral-N20);padding:1px 5px;border-radius:3px;font-size:12px;">tokens.css</code>, lalu gunakan di Tailwind config dan class HTML:</p>
           <div class="code-block">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// di theme.ts</span>
-<span class="kw">export const</span> <span class="var">theme</span> = createTheme({
-  colors: {
-    brand: [
-      <span class="str">'var(--color-blue-B50)'</span>,
-      <span class="str">'var(--color-blue-B75)'</span>,
-      <span class="str">'var(--color-blue-B100)'</span>,
-      <span class="str">'var(--color-blue-B200)'</span>,
-      <span class="str">'var(--color-blue-B300)'</span>,
-      <span class="str">'var(--color-blue-B400)'</span>,
-      <span class="str">'var(--color-blue-B500)'</span>,
-    ]
-  }
-})</div>
-          <div class="code-block" style="margin-top: 8px;">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// di Tailwind config</span>
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// tailwind.config.js — extend dengan GPOS tokens</span>
 module.exports = {
-  theme: { extend: { colors: {
-    <span class="str">'brand'</span>: <span class="str">'var(--color-blue-B300)'</span>,
-    <span class="str">'brand-hover'</span>: <span class="str">'var(--color-blue-B400)'</span>,
-    <span class="str">'surface'</span>: <span class="str">'var(--color-neutral-N10)'</span>,
-  }}}
+  theme: {
+    extend: {
+      colors: {
+        <span class="str">'brand'</span>:       <span class="str">'var(--color-blue-B300)'</span>,
+        <span class="str">'brand-hover'</span>: <span class="str">'var(--color-blue-B400)'</span>,
+        <span class="str">'brand-light'</span>: <span class="str">'var(--color-blue-B50)'</span>,
+        <span class="str">'danger'</span>:      <span class="str">'var(--color-red-R300)'</span>,
+        <span class="str">'success'</span>:     <span class="str">'var(--color-green-G300)'</span>,
+        <span class="str">'warning'</span>:     <span class="str">'var(--color-orange-O300)'</span>,
+        <span class="str">'surface'</span>:     <span class="str">'var(--color-neutral-N10)'</span>,
+        <span class="str">'n900'</span>:        <span class="str">'var(--color-neutral-N900)'</span>,
+        <span class="str">'n500'</span>:        <span class="str">'var(--color-neutral-N500)'</span>,
+        <span class="str">'n300'</span>:        <span class="str">'var(--color-neutral-N300)'</span>,
+        <span class="str">'n40'</span>:         <span class="str">'var(--color-neutral-N40)'</span>,
+      },
+      borderRadius: {
+        <span class="str">'gpos-sm'</span>: <span class="str">'var(--radius-050)'</span>,
+        <span class="str">'gpos'</span>:    <span class="str">'var(--radius-100)'</span>,
+        <span class="str">'gpos-lg'</span>: <span class="str">'var(--radius-150)'</span>,
+      },
+      spacing: {
+        <span class="str">'gpos-1'</span>: <span class="str">'var(--space-100)'</span>,
+        <span class="str">'gpos-2'</span>: <span class="str">'var(--space-200)'</span>,
+        <span class="str">'gpos-3'</span>: <span class="str">'var(--space-300)'</span>,
+        <span class="str">'gpos-4'</span>: <span class="str">'var(--space-400)'</span>,
+      }
+    }
+  }
 }</div>
+          <div class="code-block" style="margin-top: 8px;">
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Contoh penggunaan di JSX/HTML</span>
+&lt;<span class="kw">button</span> className=<span class="str">"bg-brand hover:bg-brand-hover text-white
+         h-10 px-4 rounded-gpos font-medium
+         transition-colors duration-150"</span>&gt;
+  Primary Button
+&lt;/<span class="kw">button</span>&gt;
+
+&lt;<span class="kw">span</span> className=<span class="str">"bg-brand-light text-brand
+        text-xs font-medium px-3 py-1 rounded-full"</span>&gt;
+  Badge Info
+&lt;/<span class="kw">span</span>&gt;</div>
         </div>
       </div>
 
@@ -1148,17 +1213,27 @@ module.exports = {
       </div>
 
       <div class="card">
-        <div class="card-header"><span class="card-title">Usage di Mantine</span></div>
+        <div class="card-header"><span class="card-title">Usage di Tailwind</span></div>
         <div class="card-body">
           <div class="code-block">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Text component Mantine</span>
-&lt;<span class="kw">Text</span> size=<span class="str">"sm"</span> c=<span class="str">"dimmed"</span>&gt;Caption text&lt;/<span class="kw">Text</span>&gt;
-&lt;<span class="kw">Title</span> order=<span class="val">{2}</span>&gt;Header text&lt;/<span class="kw">Title</span>&gt;
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind typography classes</span>
+<span class="cm">// Display</span>
+&lt;<span class="kw">h1</span> className=<span class="str">"text-[32px] font-medium tracking-[-0.03em] text-n900"</span>&gt;Judul&lt;/<span class="kw">h1</span>&gt;
 
-<span class="cm">// Atau pakai CSS token langsung</span>
-&lt;<span class="kw">p</span> style={{ fontSize: <span class="str">'var(--space-200)'</span>, color: <span class="str">'var(--color-text-subtle)'</span> }}&gt;
-  Body text
-&lt;/<span class="kw">p</span>&gt;</div>
+<span class="cm">// Header</span>
+&lt;<span class="kw">h2</span> className=<span class="str">"text-2xl font-semibold tracking-tight text-n900"</span>&gt;Header&lt;/<span class="kw">h2</span>&gt;
+
+<span class="cm">// Body large</span>
+&lt;<span class="kw">p</span> className=<span class="str">"text-base text-n500 leading-relaxed"</span>&gt;Body text&lt;/<span class="kw">p</span>&gt;
+
+<span class="cm">// Body medium</span>
+&lt;<span class="kw">p</span> className=<span class="str">"text-sm text-n500 leading-relaxed"</span>&gt;Body text&lt;/<span class="kw">p</span>&gt;
+
+<span class="cm">// Caption</span>
+&lt;<span class="kw">span</span> className=<span class="str">"text-xs text-n300"</span>&gt;Caption&lt;/<span class="kw">span</span>&gt;
+
+<span class="cm">// Overline</span>
+&lt;<span class="kw">span</span> className=<span class="str">"text-[11px] font-semibold uppercase tracking-wider text-n300"</span>&gt;Label&lt;/<span class="kw">span</span>&gt;</div>
         </div>
       </div>
     </div>
@@ -1204,6 +1279,7 @@ spacing: {
 
     <!-- BUTTONS -->
     <div class="section" id="section-buttons">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Buttons</h1>
         <p>Komponen button dengan berbagai variant dan ukuran.</p>
@@ -1220,27 +1296,36 @@ spacing: {
             <button class="btn btn-primary" disabled>Disabled</button>
           </div>
           <div class="code-block">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Primary button</span>
-&lt;<span class="kw">button</span> style={{
-  background: <span class="str">'var(--color-blue-B300)'</span>,
-  color: <span class="str">'#fff'</span>,
-  borderRadius: <span class="str">'var(--radius-100)'</span>,
-  height: <span class="str">'40px'</span>,
-  padding: <span class="str">'0 16px'</span>,
-  fontWeight: <span class="val">500</span>,
-  border: <span class="str">'none'</span>,
-  cursor: <span class="str">'pointer'</span>
-}}&gt;
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind button variants</span>
+<span class="cm">// Primary</span>
+&lt;<span class="kw">button</span> className=<span class="str">"bg-brand hover:bg-brand-hover text-white
+         h-10 px-4 rounded-gpos font-medium text-sm
+         transition-colors active:scale-[0.98]"</span>&gt;
   Primary
 &lt;/<span class="kw">button</span>&gt;
 
-<span class="cm">// Mantine override</span>
-&lt;<span class="kw">Button</span>
-  styles={{ root: {
-    background: <span class="str">'var(--color-blue-B300)'</span>,
-    <span class="str">'&:hover'</span>: { background: <span class="str">'var(--color-blue-B400)'</span> }
-  }}}
-&gt;Primary&lt;/<span class="kw">Button</span>&gt;</div>
+<span class="cm">// Secondary</span>
+&lt;<span class="kw">button</span> className=<span class="str">"bg-transparent text-brand border border-[var(--color-blue-B200)]
+         hover:bg-brand-light h-10 px-4 rounded-gpos font-medium text-sm"</span>&gt;
+  Secondary
+&lt;/<span class="kw">button</span>&gt;
+
+<span class="cm">// Danger</span>
+&lt;<span class="kw">button</span> className=<span class="str">"bg-danger hover:bg-[var(--color-red-R400)] text-white
+         h-10 px-4 rounded-gpos font-medium text-sm"</span>&gt;
+  Danger
+&lt;/<span class="kw">button</span>&gt;
+
+<span class="cm">// Ghost</span>
+&lt;<span class="kw">button</span> className=<span class="str">"bg-transparent text-n500 border border-n40
+         hover:bg-[var(--color-neutral-N20)] h-10 px-4 rounded-gpos font-medium text-sm"</span>&gt;
+  Ghost
+&lt;/<span class="kw">button</span>&gt;
+
+<span class="cm">// Disabled — tambahkan ke semua variant</span>
+&lt;<span class="kw">button</span> className=<span class="str">"... disabled:opacity-45 disabled:cursor-not-allowed"</span> disabled&gt;
+  Disabled
+&lt;/<span class="kw">button</span>&gt;</div>
         </div>
       </div>
 
@@ -1266,6 +1351,7 @@ spacing: {
 
     <!-- BADGES -->
     <div class="section" id="section-badges">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Badges</h1>
         <p>Badge dan label status untuk notifikasi, tag, dan indikator.</p>
@@ -1282,16 +1368,21 @@ spacing: {
             <span class="badge badge-neutral">Neutral</span>
           </div>
           <div class="code-block">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Badge component CSS</span>
-<span class="cm">// Success variant</span>
-.badge-success {
-  background: <span class="val">var(--color-green-G50)</span>;
-  color: <span class="val">var(--color-green-G400)</span>;
-  padding: <span class="val">3px 10px</span>;
-  border-radius: <span class="val">99px</span>;
-  font-size: <span class="val">11px</span>;
-  font-weight: <span class="val">500</span>;
-}</div>
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind badge variants</span>
+<span class="cm">// Info</span>
+&lt;<span class="kw">span</span> className=<span class="str">"bg-brand-light text-brand text-[11px] font-medium px-2.5 py-0.5 rounded-full"</span>&gt;Info&lt;/<span class="kw">span</span>&gt;
+
+<span class="cm">// Success</span>
+&lt;<span class="kw">span</span> className=<span class="str">"bg-[var(--color-green-G50)] text-[var(--color-green-G400)] text-[11px] font-medium px-2.5 py-0.5 rounded-full"</span>&gt;Success&lt;/<span class="kw">span</span>&gt;
+
+<span class="cm">// Warning</span>
+&lt;<span class="kw">span</span> className=<span class="str">"bg-[var(--color-orange-O50)] text-[var(--color-orange-O400)] text-[11px] font-medium px-2.5 py-0.5 rounded-full"</span>&gt;Warning&lt;/<span class="kw">span</span>&gt;
+
+<span class="cm">// Danger</span>
+&lt;<span class="kw">span</span> className=<span class="str">"bg-[var(--color-red-R50)] text-[var(--color-red-R400)] text-[11px] font-medium px-2.5 py-0.5 rounded-full"</span>&gt;Danger&lt;/<span class="kw">span</span>&gt;
+
+<span class="cm">// dengan dot — tambahkan sebelum teks</span>
+&lt;<span class="kw">span</span> className=<span class="str">"inline-block w-1.5 h-1.5 rounded-full bg-current mr-1"</span>&gt;&lt;/<span class="kw">span</span>&gt;</div>
         </div>
       </div>
 
@@ -1319,6 +1410,7 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
 
     <!-- INPUTS -->
     <div class="section" id="section-inputs">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Inputs</h1>
         <p>Form input dengan state: default, hover, focus, error, disabled.</p>
@@ -1344,31 +1436,30 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
             </div>
           </div>
           <div class="code-block" style="margin-top:20px">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Input token usage</span>
-.input {
-  background: <span class="val">var(--color-bg-input)</span>;        <span class="cm">/* N0 */</span>
-  border: <span class="val">1px solid var(--color-border-default)</span>; <span class="cm">/* N40 */</span>
-  border-radius: <span class="val">var(--radius-100)</span>;            <span class="cm">/* 8px */</span>
-  height: <span class="val">40px</span>;
-  padding: <span class="val">0 12px</span>;
-}
-.input:focus {
-  border-color: <span class="val">var(--color-border-focused)</span>;  <span class="cm">/* B200 */</span>
-  box-shadow: <span class="val">0 0 0 3px rgba(68,149,221,0.15)</span>;
-}
-.input.error {
-  border-color: <span class="val">var(--color-border-danger)</span>;   <span class="cm">/* R200 */</span>
-}
-.input:disabled {
-  background: <span class="val">var(--color-bg-disable)</span>;        <span class="cm">/* N40 */</span>
-  color: <span class="val">var(--color-text-disabled)</span>;           <span class="cm">/* N60 */</span>
-}</div>
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind input classes</span>
+<span class="cm">// Base input</span>
+&lt;<span class="kw">input</span> className=<span class="str">"w-full h-10 px-3 text-sm text-n900
+  bg-white border border-n40 rounded-gpos outline-none
+  hover:border-[var(--color-blue-B200)]
+  focus:border-[var(--color-blue-B200)]
+  focus:ring-2 focus:ring-[rgba(68,149,221,0.15)]
+  placeholder:text-[var(--color-neutral-N70)]
+  transition-colors"</span> /&gt;
+
+<span class="cm">// Error state — tambahkan class ini</span>
+&lt;<span class="kw">input</span> className=<span class="str">"... border-[var(--color-red-R200)]
+  focus:ring-[rgba(239,67,73,0.12)]"</span> /&gt;
+
+<span class="cm">// Disabled state</span>
+&lt;<span class="kw">input</span> className=<span class="str">"... bg-n40 text-[var(--color-neutral-N60)]
+  cursor-not-allowed"</span> disabled /&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- ALERTS -->
     <div class="section" id="section-alerts">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Alerts</h1>
         <p>Komponen notifikasi inline untuk info, success, warning, dan danger.</p>
@@ -1395,17 +1486,33 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
             </div>
           </div>
           <div class="code-block">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Alert tokens</span>
-.alert-info    { background: <span class="val">var(--color-blue-B50)</span>;   border-color: <span class="val">var(--color-blue-B300)</span>;   color: <span class="val">var(--color-blue-B500)</span>; }
-.alert-success { background: <span class="val">var(--color-green-G50)</span>;  border-color: <span class="val">var(--color-green-G300)</span>;  color: <span class="val">var(--color-green-G500)</span>; }
-.alert-warning { background: <span class="val">var(--color-orange-O50)</span>; border-color: <span class="val">var(--color-orange-O300)</span>; color: <span class="val">var(--color-orange-O500)</span>; }
-.alert-danger  { background: <span class="val">var(--color-red-R50)</span>;    border-color: <span class="val">var(--color-red-R300)</span>;   color: <span class="val">var(--color-red-R500)</span>; }</div>
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind alert variants</span>
+<span class="cm">// Info</span>
+&lt;<span class="kw">div</span> className=<span class="str">"flex gap-3 p-3.5 rounded-gpos text-sm
+  bg-brand-light border-l-[3px] border-brand
+  text-[var(--color-blue-B500)]"</span>&gt;...&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">// Success</span>
+&lt;<span class="kw">div</span> className=<span class="str">"flex gap-3 p-3.5 rounded-gpos text-sm
+  bg-[var(--color-green-G50)] border-l-[3px] border-success
+  text-[var(--color-green-G500)]"</span>&gt;...&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">// Warning</span>
+&lt;<span class="kw">div</span> className=<span class="str">"flex gap-3 p-3.5 rounded-gpos text-sm
+  bg-[var(--color-orange-O50)] border-l-[3px] border-warning
+  text-[var(--color-orange-O500)]"</span>&gt;...&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">// Danger</span>
+&lt;<span class="kw">div</span> className=<span class="str">"flex gap-3 p-3.5 rounded-gpos text-sm
+  bg-[var(--color-red-R50)] border-l-[3px] border-danger
+  text-[var(--color-red-R500)]"</span>&gt;...&lt;/<span class="kw">div</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- AVATARS -->
     <div class="section" id="section-avatars">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Avatars</h1>
         <p>Komponen avatar untuk representasi pengguna.</p>
@@ -1421,23 +1528,23 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
             <div class="avatar avatar-orange">CD</div>
           </div>
           <div class="code-block" style="margin-top:4px">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button>.avatar {
-  border-radius: <span class="val">50%</span>;
-  display: <span class="val">inline-flex</span>;
-  align-items: <span class="val">center</span>;
-  justify-content: <span class="val">center</span>;
-  font-weight: <span class="val">600</span>;
-  font-size: <span class="val">13px</span>;
-  <span class="cm">/* sizes: 28px sm · 40px md · 56px lg */</span>
-}
-.avatar-blue { background: <span class="val">var(--color-blue-B50)</span>; color: <span class="val">var(--color-blue-B400)</span>; }
-.avatar-green { background: <span class="val">var(--color-green-G50)</span>; color: <span class="val">var(--color-green-G400)</span>; }</div>
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind avatar</span>
+<span class="cm">// Base</span>
+&lt;<span class="kw">div</span> className=<span class="str">"rounded-full inline-flex items-center justify-center font-semibold text-sm
+  w-10 h-10 bg-brand-light text-brand"</span>&gt;AG&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">// Sizes: w-7 h-7 text-[10px] (sm) · w-10 h-10 text-sm (md) · w-14 h-14 text-lg (lg)</span>
+<span class="cm">// Colors:</span>
+<span class="cm">// Blue:   bg-brand-light text-brand</span>
+<span class="cm">// Green:  bg-[var(--color-green-G50)] text-[var(--color-green-G400)]</span>
+<span class="cm">// Orange: bg-[var(--color-orange-O50)] text-[var(--color-orange-O400)]</span></div>
         </div>
       </div>
     </div>
 
     <!-- BREADCRUMBS -->
     <div class="section" id="section-breadcrumbs">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Breadcrumbs</h1>
         <p>Navigasi hierarki halaman. Separator menggunakan karakter "/" dengan warna brand blue.</p>
@@ -1473,17 +1580,21 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
 <span class="cm">// Item current: color: var(--color-neutral-N500), font-weight: 500</span>
 <span class="cm">// Font size: 12px</span>
 
-<span class="kw">const</span> <span class="var">breadcrumbStyle</span> = {
-  separator: { color: <span class="str">'var(--color-neutral-N70)'</span> },
-  link: { color: <span class="str">'var(--color-blue-B300)'</span>, hoverBg: <span class="str">'var(--color-blue-B50)'</span> },
-  current: { color: <span class="str">'var(--color-neutral-N500)'</span>, fontWeight: <span class="val">500</span> }
-}</div>
+<span class="cm">// Tailwind breadcrumbs</span>
+&lt;<span class="kw">nav</span> className=<span class="str">"flex items-center gap-0 text-xs"</span>&gt;
+  &lt;<span class="kw">a</span> className=<span class="str">"text-brand hover:bg-brand-light px-1 py-0.5 rounded"</span>&gt;Dashboard&lt;/<span class="kw">a</span>&gt;
+  &lt;<span class="kw">span</span> className=<span class="str">"text-[var(--color-neutral-N70)] px-0.5"</span>&gt;/&lt;/<span class="kw">span</span>&gt;
+  &lt;<span class="kw">a</span> className=<span class="str">"text-brand hover:bg-brand-light px-1 py-0.5 rounded"</span>&gt;Transaksi&lt;/<span class="kw">a</span>&gt;
+  &lt;<span class="kw">span</span> className=<span class="str">"text-[var(--color-neutral-N70)] px-0.5"</span>&gt;/&lt;/<span class="kw">span</span>&gt;
+  &lt;<span class="kw">span</span> className=<span class="str">"text-n500 font-medium px-1"</span>&gt;Detail&lt;/<span class="kw">span</span>&gt;  <span class="cm">{/* current */}</span>
+&lt;/<span class="kw">nav</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- CHECKBOX -->
     <div class="section" id="section-checkbox">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Checkbox</h1>
         <p>Komponen seleksi multi pilihan. Tersedia 2 ukuran: medium (24px) dan large (32px). Variant: default, hover, checked, indeterminate, error, disabled.</p>
@@ -1535,19 +1646,25 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Checkbox tokens dari Figma</span>
-<span class="cm">// Unchecked: border var(--color-neutral-N50)</span>
-<span class="cm">// Checked: bg + border var(--color-blue-B300), checkmark white</span>
-<span class="cm">// Error: border var(--color-red-R200), label var(--color-red-R300)</span>
-<span class="cm">// Disabled: bg var(--color-neutral-N20), border var(--color-neutral-N40)</span>
-<span class="cm">// Hover checked: bg var(--color-blue-B400)</span>
-<span class="cm">// Border radius: var(--radius-025) = 2px</span>
-<span class="cm">// Sizes: medium=14px, large=20px</span></div>
+<span class="cm">// Tailwind checkbox</span>
+&lt;<span class="kw">input</span> type=<span class="str">"checkbox"</span>
+  className=<span class="str">"w-4 h-4 rounded-sm cursor-pointer
+    border border-[var(--color-neutral-N50)]
+    checked:bg-brand checked:border-brand
+    focus:ring-2 focus:ring-brand focus:ring-offset-1
+    disabled:bg-n40 disabled:border-n40 disabled:cursor-not-allowed"</span>
+/&gt;
+
+<span class="cm">// Error state — tambah class:</span>
+<span class="cm">// border-[var(--color-red-R200)]</span>
+<span class="cm">// Sizes: w-3.5 h-3.5 (medium) · w-5 h-5 (large)</span></div>
         </div>
       </div>
     </div>
 
     <!-- TOGGLE -->
     <div class="section" id="section-toggle">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Toggle</h1>
         <p>Switch on/off. Checked = Green G300, Unchecked = Neutral N500, Disabled = Neutral N40. Width 40px, height 20px, radius 99px.</p>
@@ -1583,18 +1700,25 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Toggle tokens dari Figma</span>
-.toggle-checked   { background: <span class="val">var(--color-green-G300)</span>; }
-.toggle-unchecked { background: <span class="val">var(--color-neutral-N500)</span>; }
-.toggle-hover     { background: <span class="val">var(--color-green-G400)</span>; }
-.toggle-disabled  { background: <span class="val">var(--color-neutral-N40)</span>; }
-<span class="cm">/* Width: 40px · Height: 20px · Border-radius: 99px */</span>
-<span class="cm">/* Knob: 16×16px white circle, position absolute */</span></div>
+<span class="cm">// Tailwind toggle</span>
+&lt;<span class="kw">button</span>
+  role=<span class="str">"switch"</span>
+  className=<span class="str">"relative w-10 h-5 rounded-full transition-colors duration-200
+    bg-n500 data-[state=checked]:bg-success
+    hover:data-[state=checked]:bg-[var(--color-green-G400)]
+    disabled:bg-n40 disabled:cursor-not-allowed"</span>
+&gt;
+  &lt;<span class="kw">span</span> className=<span class="str">"absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white
+    shadow transition-transform duration-200
+    data-[state=checked]:translate-x-5"</span> /&gt;
+&lt;/<span class="kw">button</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- RADIO -->
     <div class="section" id="section-radio">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Radio</h1>
         <p>Komponen single-select dari grup pilihan. Variant: default, hover, checked, error, disabled.</p>
@@ -1642,17 +1766,22 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Radio tokens</span>
-<span class="cm">// Unselected: border var(--color-neutral-N50)</span>
-<span class="cm">// Selected: border + dot var(--color-blue-B300)</span>
-<span class="cm">// Error: border var(--color-red-R200)</span>
-<span class="cm">// Disabled: bg var(--color-neutral-N20), border var(--color-neutral-N40)</span>
-<span class="cm">// Size: 16px, border-radius: 50%</span></div>
+<span class="cm">// Tailwind radio</span>
+&lt;<span class="kw">input</span> type=<span class="str">"radio"</span>
+  className=<span class="str">"w-4 h-4 cursor-pointer
+    border border-[var(--color-neutral-N50)]
+    text-brand focus:ring-brand
+    checked:border-brand checked:bg-brand
+    disabled:bg-n40 disabled:border-n40 disabled:cursor-not-allowed"</span>
+/&gt;
+<span class="cm">// Error: border-[var(--color-red-R200)]</span></div>
         </div>
       </div>
     </div>
 
     <!-- TABS -->
     <div class="section" id="section-tabs">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Tabs</h1>
         <p>Navigasi konten berlapis. Active tab menggunakan border-bottom biru, lebar penuh.</p>
@@ -1671,17 +1800,23 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           <div style="font-size:13px;color:var(--color-neutral-N400)">Konten tab aktif ditampilkan di sini</div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tabs tokens dari Figma</span>
-<span class="cm">// Tab item height: 34px</span>
-<span class="cm">// Active: color var(--color-blue-B300), border-bottom 2px solid var(--color-blue-B300)</span>
-<span class="cm">// Inactive: color var(--color-neutral-N400)</span>
-<span class="cm">// Hover: color var(--color-neutral-N900)</span>
-<span class="cm">// Bottom border container: 1.5px solid var(--color-neutral-N30)</span></div>
+<span class="cm">// Tailwind tabs</span>
+&lt;<span class="kw">div</span> className=<span class="str">"border-b border-[var(--color-neutral-N30)]"</span>&gt;
+  &lt;<span class="kw">div</span> className=<span class="str">"flex"</span>&gt;
+    &lt;<span class="kw">button</span> className=<span class="str">"px-4 h-[34px] text-sm font-medium -mb-px
+      text-brand border-b-2 border-brand"</span>&gt;Aktif&lt;/<span class="kw">button</span>&gt;
+    &lt;<span class="kw">button</span> className=<span class="str">"px-4 h-[34px] text-sm text-n300 -mb-px
+      border-b-2 border-transparent
+      hover:text-n900"</span>&gt;Tab lain&lt;/<span class="kw">button</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- LOZENGE -->
     <div class="section" id="section-lozenge">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Lozenge</h1>
         <p>Status label compact. 6 appearance: default, inprogress, moved, new, removed, success. Setiap appearance punya 2 mode: subtle dan bold.</p>
@@ -1718,19 +1853,22 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           <div class="code-block">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Lozenge tokens dari Figma</span>
 <span class="cm">// Semua lozenge: font-size 11px, font-weight 500, padding 3px 8px, radius 4px, UPPERCASE</span>
-.lozenge-default    { bg: <span class="val">var(--color-neutral-N20)</span>;  color: <span class="val">var(--color-neutral-N600)</span>; }
-.lozenge-inprogress { bg: <span class="val">var(--color-blue-B50)</span>;    color: <span class="val">var(--color-blue-B400)</span>; }
-.lozenge-moved      { bg: <span class="val">var(--color-orange-O50)</span>;  color: <span class="val">var(--color-orange-O400)</span>; }
-.lozenge-new        { bg: <span class="val">var(--color-purple-P50)</span>;  color: <span class="val">var(--color-purple-P400)</span>; }
-.lozenge-removed    { bg: <span class="val">var(--color-red-R50)</span>;     color: <span class="val">var(--color-red-R400)</span>; }
-.lozenge-success    { bg: <span class="val">var(--color-green-G50)</span>;   color: <span class="val">var(--color-green-G400)</span>; }
-<span class="cm">// Bold variant: ganti bg ke warna bold (B300, O300, P300, R300, G300)</span></div>
+<span class="cm">// Tailwind lozenge — semua uppercase, text-[11px] font-medium px-2 py-0.5 rounded</span>
+<span class="cm">// Default</span>   <span class="str">bg-[var(--color-neutral-N20)] text-[var(--color-neutral-N600)]</span>
+<span class="cm">// Inprogress</span> <span class="str">bg-brand-light text-brand</span>
+<span class="cm">// Moved</span>      <span class="str">bg-[var(--color-orange-O50)] text-[var(--color-orange-O400)]</span>
+<span class="cm">// New</span>        <span class="str">bg-[var(--color-purple-P50)] text-[var(--color-purple-P400)]</span>
+<span class="cm">// Removed</span>    <span class="str">bg-[var(--color-red-R50)] text-[var(--color-red-R400)]</span>
+<span class="cm">// Success</span>    <span class="str">bg-[var(--color-green-G50)] text-[var(--color-green-G400)]</span>
+
+<span class="cm">// Bold variant: ganti bg ke warna solid (bg-brand, bg-danger, bg-success...)</span></div>
         </div>
       </div>
     </div>
 
     <!-- DROPDOWN -->
     <div class="section" id="section-dropdown">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Dropdown Menu</h1>
         <p>Menu konteks yang muncul saat trigger diklik. Gunakan token elevation untuk shadow.</p>
@@ -1765,18 +1903,26 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Dropdown tokens</span>
-<span class="cm">// Container: bg white, border var(--color-neutral-N30), radius var(--radius-100)</span>
-<span class="cm">// Shadow: 0 4px 16px rgba(9,30,66,0.12) [Elevation token]</span>
-<span class="cm">// Item: font-size 13px, padding 8px 12px, height 32px</span>
-<span class="cm">// Item hover: bg var(--color-neutral-N20)</span>
-<span class="cm">// Item danger hover: bg var(--color-red-R50), color var(--color-red-R300)</span>
-<span class="cm">// Separator: 1px var(--color-neutral-N30)</span></div>
+<span class="cm">// Tailwind dropdown menu</span>
+&lt;<span class="kw">div</span> className=<span class="str">"bg-white border border-[var(--color-neutral-N30)]
+  rounded-gpos shadow-[0_4px_16px_rgba(9,30,66,0.12)]
+  w-44 py-1 overflow-hidden"</span>&gt;
+
+  &lt;<span class="kw">button</span> className=<span class="str">"w-full flex items-center gap-2 px-3 py-2
+    text-sm text-n900 hover:bg-[var(--color-neutral-N20)]"</span>&gt;Edit&lt;/<span class="kw">button</span>&gt;
+
+  &lt;<span class="kw">hr</span> className=<span class="str">"border-[var(--color-neutral-N30)] my-1"</span> /&gt;
+
+  &lt;<span class="kw">button</span> className=<span class="str">"w-full flex items-center gap-2 px-3 py-2
+    text-sm text-danger hover:bg-[var(--color-red-R50)]"</span>&gt;Hapus&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- CALENDAR -->
     <div class="section" id="section-calendar">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi · Butuh library: react-day-picker</span></div>
       <div class="page-header">
         <h1>Calendar</h1>
         <p>Komponen pemilih tanggal dengan navigasi bulan. Width 361px dari Figma.</p>
@@ -1809,19 +1955,20 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Calendar tokens</span>
-<span class="cm">// Container: width 361px, radius var(--radius-150)</span>
-<span class="cm">// Day cell: 32×32px, border-radius 50%</span>
-<span class="cm">// Today: border 1px solid var(--color-blue-B300), color var(--color-blue-B300)</span>
-<span class="cm">// Selected: bg var(--color-blue-B300), color white</span>
-<span class="cm">// Hover: bg var(--color-neutral-N20)</span>
-<span class="cm">// Other month: color var(--color-neutral-N50)</span>
-<span class="cm">// Range selected: bg var(--color-blue-B50)</span></div>
+<span class="cm">// Tailwind calendar day cells</span>
+<span class="cm">// Base cell</span>    <span class="str">w-8 h-8 rounded-full flex items-center justify-center text-xs cursor-pointer hover:bg-[var(--color-neutral-N20)]</span>
+<span class="cm">// Today</span>        <span class="str">border border-brand text-brand font-medium</span>
+<span class="cm">// Selected</span>     <span class="str">bg-brand text-white font-medium</span>
+<span class="cm">// Range</span>        <span class="str">bg-brand-light text-brand</span>
+<span class="cm">// Other month</span>  <span class="str">text-[var(--color-neutral-N50)]</span>
+<span class="cm">// Rekomendasi library: react-day-picker + custom Tailwind classes</span></div>
         </div>
       </div>
     </div>
 
     <!-- DATE PICKER -->
     <div class="section" id="section-datepicker">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi · Butuh library: react-day-picker</span></div>
       <div class="page-header">
         <h1>Date Picker</h1>
         <p>Input field yang membuka Calendar. Kombinasi Text Field + Calendar popup.</p>
@@ -1849,22 +1996,30 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Date Picker = Text field + Calendar popup</span>
-<span class="cm">// Field: sama dengan Text field token</span>
-<span class="cm">// Icon calendar: color var(--color-neutral-N300)</span>
-<span class="cm">// Placeholder: color var(--color-neutral-N70)</span>
-<span class="cm">// Popup: Calendar dengan shadow elevation</span>
-<span class="cm">// Mantine: gunakan @mantine/dates DatePickerInput</span>
-&lt;<span class="kw">DatePickerInput</span>
-  leftSection={&lt;<span class="kw">IconCalendar</span>/&gt;}
-  placeholder=<span class="str">"DD/MM/YYYY"</span>
-  valueFormat=<span class="str">"DD/MM/YYYY"</span>
-/&gt;</div>
+<span class="cm">// Tailwind date picker field</span>
+&lt;<span class="kw">div</span> className=<span class="str">"relative"</span>&gt;
+  &lt;<span class="kw">span</span> className=<span class="str">"absolute left-3 top-1/2 -translate-y-1/2 text-n300"</span>&gt;
+    <span class="cm">{/* icon calendar */}</span>
+  &lt;/<span class="kw">span</span>&gt;
+  &lt;<span class="kw">input</span>
+    readOnly
+    placeholder=<span class="str">"DD/MM/YYYY"</span>
+    className=<span class="str">"w-full h-10 pl-9 pr-3 text-sm
+      border border-n40 rounded-gpos bg-white
+      placeholder:text-[var(--color-neutral-N70)]
+      hover:border-brand focus:border-brand
+      focus:ring-2 focus:ring-[rgba(68,149,221,0.15)]
+      cursor-pointer"</span>
+  /&gt;
+&lt;/<span class="kw">div</span>&gt;
+<span class="cm">// Library rekomendasi: react-day-picker atau @headlessui + custom calendar</span></div>
         </div>
       </div>
     </div>
 
     <!-- PAGINATION -->
     <div class="section" id="section-pagination">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Pagination</h1>
         <p>Navigasi halaman data. Width 536px dari Figma. Tombol active menggunakan brand blue.</p>
@@ -1889,17 +2044,29 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Pagination tokens</span>
-<span class="cm">// Item: width 32px, height 32px, radius var(--radius-050)</span>
-<span class="cm">// Default: bg white, border var(--color-neutral-N40), color var(--color-neutral-N600)</span>
-<span class="cm">// Active: bg var(--color-blue-B300), color white, no border, font-weight 500</span>
-<span class="cm">// Hover: bg var(--color-neutral-N20)</span>
-<span class="cm">// Gap between items: 4px</span></div>
+<span class="cm">// Tailwind pagination</span>
+&lt;<span class="kw">div</span> className=<span class="str">"flex items-center gap-1"</span>&gt;
+  <span class="cm">{/* Prev/Next */}</span>
+  &lt;<span class="kw">button</span> className=<span class="str">"w-8 h-8 flex items-center justify-center
+    border border-n40 rounded-gpos-sm bg-white
+    text-n300 hover:bg-[var(--color-neutral-N20)]"</span>&gt;‹&lt;/<span class="kw">button</span>&gt;
+
+  <span class="cm">{/* Page item default */}</span>
+  &lt;<span class="kw">button</span> className=<span class="str">"w-8 h-8 text-sm border border-n40
+    rounded-gpos-sm bg-white text-n500
+    hover:bg-[var(--color-neutral-N20)]"</span>&gt;1&lt;/<span class="kw">button</span>&gt;
+
+  <span class="cm">{/* Page item active */}</span>
+  &lt;<span class="kw">button</span> className=<span class="str">"w-8 h-8 text-sm rounded-gpos-sm
+    bg-brand text-white font-medium border-none"</span>&gt;2&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- SPINNER -->
     <div class="section" id="section-spinner">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Spinner</h1>
         <p>Loading indicator. Tersedia berbagai ukuran, warna mengikuti brand atau context (inherit).</p>
@@ -1926,21 +2093,20 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
             </div>
           </div>
           <div class="code-block" style="margin-top:16px">
-<button class="copy-code-btn" onclick="copyCode(this)">copy</button>@keyframes spin { to { transform: rotate(360deg); } }
+<button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tailwind spinner</span>
+&lt;<span class="kw">div</span> className=<span class="str">"w-6 h-6 rounded-full animate-spin
+  border-[2.5px] border-[var(--color-neutral-N30)]
+  border-t-brand"</span> /&gt;
 
-.spinner {
-  border: 2.5px solid <span class="val">var(--color-neutral-N30)</span>;
-  border-top-color: <span class="val">var(--color-blue-B300)</span>;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-<span class="cm">/* Sizes: 16px sm · 24px md · 40px lg */</span></div>
+<span class="cm">// Sizes: w-4 h-4 (sm) · w-6 h-6 (md) · w-10 h-10 (lg)</span>
+<span class="cm">// On brand bg: border-white/30 border-t-white</span></div>
         </div>
       </div>
     </div>
 
     <!-- TOOLTIP -->
     <div class="section" id="section-tooltip">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Tooltips</h1>
         <p>Info contextual yang muncul saat hover. Background dark (N900), teks putih. Arrow 6×6px.</p>
@@ -1966,18 +2132,30 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Tooltip tokens</span>
-<span class="cm">// Background: var(--color-neutral-N900) = #091E42</span>
-<span class="cm">// Text: white, font-size 12px</span>
-<span class="cm">// Padding: 6px 10px</span>
-<span class="cm">// Border-radius: var(--radius-050) = 4px</span>
-<span class="cm">// Arrow: 5px triangle, same bg color</span>
-<span class="cm">// Max-width: 200px</span></div>
+<span class="cm">// Tailwind tooltip</span>
+&lt;<span class="kw">div</span> className=<span class="str">"relative group inline-block"</span>&gt;
+  <span class="cm">{/* trigger */}</span>
+  &lt;<span class="kw">span</span>&gt;Hover me&lt;/<span class="kw">span</span>&gt;
+
+  <span class="cm">{/* tooltip */}</span>
+  &lt;<span class="kw">div</span> className=<span class="str">"absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+    bg-n900 text-white text-xs px-2.5 py-1.5 rounded-gpos-sm
+    max-w-[200px] whitespace-nowrap
+    opacity-0 group-hover:opacity-100 pointer-events-none
+    transition-opacity duration-150"</span>&gt;
+    Tooltip text
+    <span class="cm">{/* arrow */}</span>
+    &lt;<span class="kw">span</span> className=<span class="str">"absolute top-full left-1/2 -translate-x-1/2
+      border-4 border-transparent border-t-n900"</span> /&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- MODAL DIALOG -->
     <div class="section" id="section-modal">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi ke Tailwind</span></div>
       <div class="page-header">
         <h1>Modal Dialog</h1>
         <p>Overlay dialog untuk konfirmasi, form, atau konten penting. Backdrop rgba(9,30,66,0.5).</p>
@@ -2006,20 +2184,38 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Modal Dialog tokens</span>
-<span class="cm">// Backdrop: background rgba(9,30,66,0.5) [= neutral N900 + 50% opacity]</span>
-<span class="cm">// Container: bg white, radius var(--radius-150), max-width 420-560px</span>
-<span class="cm">// Shadow: 0 8px 32px rgba(9,30,66,0.16)</span>
-<span class="cm">// Header: padding 20px 24px, border-bottom var(--color-neutral-N30)</span>
-<span class="cm">// Title: font-size 16px, font-weight 600</span>
-<span class="cm">// Body: padding 20px 24px</span>
-<span class="cm">// Footer: padding 16px 24px, border-top, flex justify-end</span>
-<span class="cm">// Close btn: radius 50%, hover bg var(--color-neutral-N20)</span></div>
+<span class="cm">// Tailwind modal</span>
+<span class="cm">{/* Backdrop */}</span>
+&lt;<span class="kw">div</span> className=<span class="str">"fixed inset-0 bg-[rgba(9,30,66,0.5)] flex items-center justify-center z-50"</span>&gt;
+  <span class="cm">{/* Container */}</span>
+  &lt;<span class="kw">div</span> className=<span class="str">"bg-white rounded-gpos-lg w-full max-w-[420px]
+    shadow-[0_8px_32px_rgba(9,30,66,0.16)] overflow-hidden"</span>&gt;
+
+    <span class="cm">{/* Header */}</span>
+    &lt;<span class="kw">div</span> className=<span class="str">"flex items-center justify-between px-6 py-5
+      border-b border-[var(--color-neutral-N30)]"</span>&gt;
+      &lt;<span class="kw">h2</span> className=<span class="str">"text-base font-semibold text-n900"</span>&gt;Judul Modal&lt;/<span class="kw">h2</span>&gt;
+      &lt;<span class="kw">button</span> className=<span class="str">"w-7 h-7 rounded-full hover:bg-[var(--color-neutral-N20)]"</span>&gt;✕&lt;/<span class="kw">button</span>&gt;
+    &lt;/<span class="kw">div</span>&gt;
+
+    <span class="cm">{/* Body */}</span>
+    &lt;<span class="kw">div</span> className=<span class="str">"px-6 py-5"</span>&gt;...&lt;/<span class="kw">div</span>&gt;
+
+    <span class="cm">{/* Footer */}</span>
+    &lt;<span class="kw">div</span> className=<span class="str">"flex justify-end gap-2.5 px-6 py-4
+      border-t border-[var(--color-neutral-N30)]"</span>&gt;
+      &lt;<span class="kw">button</span> className=<span class="str">"btn-ghost"</span>&gt;Batal&lt;/<span class="kw">button</span>&gt;
+      &lt;<span class="kw">button</span> className=<span class="str">"btn-primary"</span>&gt;Konfirmasi&lt;/<span class="kw">button</span>&gt;
+    &lt;/<span class="kw">div</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- DYNAMIC TABLE -->
     <div class="section" id="section-table">
+      <div class="migration-bar"><span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span><span class="migration-note">Belum dimigasi · Butuh library: TanStack Table</span></div>
       <div class="page-header">
         <h1>Dynamic Table</h1>
         <p>Tabel data dengan sorting, pagination, dan row selection. Width 1140px dari Figma.</p>
@@ -2084,20 +2280,131 @@ background: <span class="val">var(--color-green-G300)</span>; <span class="cm">/
           </div>
           <div class="code-block" style="margin-top:16px">
 <button class="copy-code-btn" onclick="copyCode(this)">copy</button><span class="cm">// Dynamic Table tokens</span>
-<span class="cm">// Header: bg var(--color-neutral-N20), font-weight 600, color var(--color-neutral-N700)</span>
-<span class="cm">// Header hover: bg var(--color-neutral-N30)</span>
-<span class="cm">// Row hover: bg var(--color-neutral-N10)</span>
-<span class="cm">// Row selected: bg var(--color-blue-B50)</span>
-<span class="cm">// Row border: 1px var(--color-neutral-N20)</span>
-<span class="cm">// Cell padding: 10px 12px</span>
-<span class="cm">// Status: gunakan Lozenge tokens</span>
-<span class="cm">// Checkbox di header: indeterminate state saat partial select</span></div>
+<span class="cm">// Tailwind dynamic table</span>
+&lt;<span class="kw">table</span> className=<span class="str">"w-full text-sm border-collapse"</span>&gt;
+  &lt;<span class="kw">thead</span>&gt;
+    &lt;<span class="kw">tr</span> className=<span class="str">"bg-[var(--color-neutral-N20)]"</span>&gt;
+      &lt;<span class="kw">th</span> className=<span class="str">"px-3 py-2.5 text-left font-semibold text-n500
+        border-b border-[var(--color-neutral-N30)]
+        hover:bg-[var(--color-neutral-N30)] cursor-pointer"</span>&gt;
+        Nama
+      &lt;/<span class="kw">th</span>&gt;
+    &lt;/<span class="kw">tr</span>&gt;
+  &lt;/<span class="kw">thead</span>&gt;
+  &lt;<span class="kw">tbody</span>&gt;
+    <span class="cm">{/* Row default */}</span>
+    &lt;<span class="kw">tr</span> className=<span class="str">"border-b border-[var(--color-neutral-N20)] hover:bg-surface"</span>&gt;
+      &lt;<span class="kw">td</span> className=<span class="str">"px-3 py-2.5 text-n900"</span>&gt;...&lt;/<span class="kw">td</span>&gt;
+    &lt;/<span class="kw">tr</span>&gt;
+    <span class="cm">{/* Row selected */}</span>
+    &lt;<span class="kw">tr</span> className=<span class="str">"border-b border-[var(--color-neutral-N20)] bg-brand-light"</span>&gt;
+      &lt;<span class="kw">td</span> className=<span class="str">"px-3 py-2.5 text-n900"</span>&gt;...&lt;/<span class="kw">td</span>&gt;
+    &lt;/<span class="kw">tr</span>&gt;
+  &lt;/<span class="kw">tbody</span>&gt;
+&lt;/<span class="kw">table</span>&gt;</div>
         </div>
       </div>
     </div>
 
     <!-- SPINNER CSS -->
     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+
+    <!-- MIGRATION TRACKER -->
+    <div class="section" id="section-migration">
+      <div class="page-header">
+        <h1>Migration Tracker</h1>
+        <p>Status migrasi dari Mantine ke Tailwind per komponen. Update tabel ini setiap kali engineer selesai migrasi satu komponen.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-body" style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
+          <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--color-neutral-N600)">
+              <span class="migration-badge badge-target">✓ Selesai Tailwind</span>
+              <span>= Komponen sudah full Tailwind di production</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--color-neutral-N600)">
+              <span class="migration-badge badge-partial">⚡ Butuh Library</span>
+              <span>= Perlu install library dulu sebelum bisa migrasi</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--color-neutral-N600)">
+              <span class="migration-badge badge-legacy">⚠ Sedang Migrasi</span>
+              <span>= Masih Mantine, belum dimulai atau sedang dikerjakan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Status per komponen</span>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:12px;color:var(--color-neutral-N400)" id="migration-summary"></span>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="token-table">
+            <thead>
+              <tr>
+                <th style="padding-left:20px;">Komponen</th>
+                <th>Status</th>
+                <th>Library pengganti</th>
+                <th>Catatan</th>
+              </tr>
+            </thead>
+            <tbody id="migration-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header"><span class="card-title">3 komponen yang butuh library pengganti</span></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="padding:14px 16px;border:1px solid var(--color-neutral-N30);border-radius:var(--radius-100);">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-size:14px;font-weight:600;color:var(--color-neutral-N900);">Calendar + Date Picker</span>
+                <span class="migration-badge badge-partial">⚡ Butuh Library</span>
+              </div>
+              <p style="font-size:13px;color:var(--color-neutral-N400);margin-bottom:8px;">Pengganti <code style="font-family:var(--font-mono);background:var(--color-neutral-N20);padding:1px 5px;border-radius:3px;font-size:11px;">@mantine/dates</code></p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <div style="background:var(--color-neutral-N10);border:1px solid var(--color-neutral-N30);border-radius:8px;padding:10px 14px;font-size:13px;">
+                  <div style="font-weight:600;color:var(--color-neutral-N900);margin-bottom:2px;">react-day-picker</div>
+                  <div style="color:var(--color-neutral-N400);font-size:12px;">Ringan, headless, support Tailwind</div>
+                </div>
+                <div style="background:var(--color-neutral-N10);border:1px solid var(--color-neutral-N30);border-radius:8px;padding:10px 14px;font-size:13px;">
+                  <div style="font-weight:600;color:var(--color-neutral-N900);margin-bottom:2px;">shadcn/ui Calendar</div>
+                  <div style="color:var(--color-neutral-N400);font-size:12px;">Built on react-day-picker + Tailwind</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px;border:1px solid var(--color-neutral-N30);border-radius:var(--radius-100);">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                <span style="font-size:14px;font-weight:600;color:var(--color-neutral-N900);">Dynamic Table</span>
+                <span class="migration-badge badge-partial">⚡ Butuh Library</span>
+              </div>
+              <p style="font-size:13px;color:var(--color-neutral-N400);margin-bottom:8px;">Pengganti table Mantine dengan sorting & pagination</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <div style="background:var(--color-neutral-N10);border:1px solid var(--color-neutral-N30);border-radius:8px;padding:10px 14px;font-size:13px;">
+                  <div style="font-weight:600;color:var(--color-neutral-N900);margin-bottom:2px;">TanStack Table v8</div>
+                  <div style="color:var(--color-neutral-N400);font-size:12px;">Headless, powerful, pakai Tailwind untuk styling</div>
+                </div>
+                <div style="background:var(--color-neutral-N10);border:1px solid var(--color-neutral-N30);border-radius:8px;padding:10px 14px;font-size:13px;">
+                  <div style="font-weight:600;color:var(--color-neutral-N900);margin-bottom:2px;">@tanstack/react-table</div>
+                  <div style="color:var(--color-neutral-N400);font-size:12px;">Sudah ada di package.json — perlu custom UI</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px;background:var(--color-orange-O50);border:1px solid var(--color-orange-O75);border-radius:var(--radius-100);">
+              <div style="font-size:13px;font-weight:600;color:var(--color-orange-O400);margin-bottom:4px;">⚠ Belum ada di catalog ini</div>
+              <div style="font-size:13px;color:var(--color-orange-O500);">Mantine Charts (<code style="font-family:var(--font-mono);font-size:11px;">@mantine/charts</code>), Carousel (<code style="font-family:var(--font-mono);font-size:11px;">@mantine/carousel</code>), dan Notifications (<code style="font-family:var(--font-mono);font-size:11px;">@mantine/notifications</code>) — ketiganya butuh diskusi terpisah dengan engineer karena kompleksitas penggantiannya lebih tinggi.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- TOKEN REFERENCE -->
     <div class="section" id="section-tokens-ref">
@@ -2370,6 +2677,58 @@ SEMANTICS.forEach(([token, ref, hex]) => {
   `;
   semanticBody.appendChild(tr);
 });
+
+// ── MIGRATION TRACKER DATA ──
+// STATUS: 'done' = selesai Tailwind | 'needs-lib' = butuh library dulu | 'todo' = belum dimulai
+// Engineer: update status ke 'done' setelah komponen selesai dimigasi
+const MIGRATION_DATA = [
+  { name: 'Buttons',       status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Badges',        status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Inputs',        status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Alerts',        status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Avatars',       status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Breadcrumbs',   status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Checkbox',      status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Toggle',        status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Radio',         status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Tabs',          status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Lozenge',       status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Dropdown Menu', status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Pagination',    status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Spinner',       status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Tooltips',      status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Modal Dialog',  status: 'todo',      library: '—',                     note: 'Belum dimulai' },
+  { name: 'Calendar',      status: 'needs-lib', library: 'react-day-picker',      note: 'Install dulu, lalu wrap dengan Tailwind' },
+  { name: 'Date Picker',   status: 'needs-lib', library: 'react-day-picker',      note: 'Install dulu, lalu wrap dengan Tailwind' },
+  { name: 'Dynamic Table', status: 'needs-lib', library: '@tanstack/react-table', note: 'Sudah ada di package.json, perlu buat custom UI Tailwind' },
+];
+
+const statusLabel = {
+  done:      '<span class="migration-badge badge-target" style="font-size:10px;padding:2px 8px;">✓ Selesai Tailwind</span>',
+  'needs-lib': '<span class="migration-badge badge-partial" style="font-size:10px;padding:2px 8px;">⚡ Butuh Library</span>',
+  todo:      '<span class="migration-badge badge-legacy" style="font-size:10px;padding:2px 8px;">⚠ Sedang Migrasi</span>',
+};
+
+const migBody = document.getElementById('migration-table-body');
+if (migBody) {
+  MIGRATION_DATA.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="padding-left:20px;font-size:13px;font-weight:500;color:var(--color-neutral-N900)">${row.name}</td>
+      <td>${statusLabel[row.status]}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-N400)">${row.library}</td>
+      <td style="font-size:12px;color:var(--color-neutral-N400)">${row.note}</td>
+    `;
+    migBody.appendChild(tr);
+  });
+
+  const done = MIGRATION_DATA.filter(r => r.status === 'done').length;
+  const total = MIGRATION_DATA.length;
+  const pct = Math.round(done/total*100);
+  const summary = document.getElementById('migration-summary');
+  if (summary) summary.textContent = `${done}/${total} selesai (${pct}%)`;
+}
+
 </script>
 </body>
 </html>
